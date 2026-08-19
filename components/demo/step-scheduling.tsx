@@ -107,7 +107,7 @@ export function StepScheduling({
             </dl>
 
             <div className="px-4 py-3 text-center text-xs text-muted-foreground">
-              Confirmation + calendar invite sent to Sarah and added to your dashboard.
+              In production, this instantly sends Sarah a confirmation + calendar invite and adds it to your dashboard.
             </div>
           </motion.div>
         )}

@@ -29,7 +29,9 @@ export default function Page() {
     setSlot(null)
   }, [])
 
+  const conversationBlocked = step === 1 && !convoDone
   const scheduleBlocked = step === 3 && !slot
+  const nextDisabled = conversationBlocked || scheduleBlocked
   const highlightNext =
     (step === 1 && convoDone) || (step === 3 && !!slot) || step === 2 || step === 4
 
@@ -71,7 +73,7 @@ export default function Page() {
             {step === 1 && <StepConversation onComplete={setConvoDone} />}
             {step === 2 && <StepLeadScore />}
             {step === 3 && <StepScheduling selected={slot} onSelect={setSlot} />}
-            {step === 4 && <StepDashboard />}
+            {step === 4 && <StepDashboard bookedSlot={slot} />}
             {step === 5 && <StepOutro onRestart={restart} />}
           </motion.div>
         </AnimatePresence>
@@ -85,7 +87,7 @@ export default function Page() {
           onNext={goNext}
           onRestart={restart}
           nextLabel={NEXT_LABELS[step]}
-          nextDisabled={scheduleBlocked}
+          nextDisabled={nextDisabled}
           highlightNext={highlightNext}
         />
       )}

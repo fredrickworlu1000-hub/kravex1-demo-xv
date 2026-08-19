@@ -7,6 +7,7 @@ import {
   DASHBOARD_LEADS,
   FOLLOW_UPS,
   type DashboardLead,
+  type ViewingSlot,
 } from "@/lib/demo-data"
 
 const BAND_STYLE: Record<
@@ -52,8 +53,16 @@ function LeadRow({ lead, index }: { lead: DashboardLead; index: number }) {
   )
 }
 
-export function StepDashboard() {
+export function StepDashboard({ bookedSlot }: { bookedSlot: ViewingSlot | null }) {
   const bands: DashboardLead["band"][] = ["HOT", "WARM", "COLD"]
+  const appointmentTime = bookedSlot
+    ? `${bookedSlot.day.slice(0, 3)} · ${bookedSlot.time}`
+    : APPOINTMENTS[0].time
+  const leads = DASHBOARD_LEADS.map((lead) =>
+    lead.name === "Sarah Mitchell" && bookedSlot
+      ? { ...lead, meta: `Viewing booked · ${bookedSlot.day.slice(0, 3)} ${bookedSlot.time}` }
+      : lead,
+  )
   return (
     <div className="mx-auto w-full max-w-5xl px-4 pt-6 sm:px-6">
       <header className="mb-6 text-center">
@@ -76,7 +85,7 @@ export function StepDashboard() {
           </div>
           <div className="flex flex-col gap-5">
             {bands.map((band) => {
-              const leads = DASHBOARD_LEADS.filter((l) => l.band === band)
+              const bandLeads = leads.filter((l) => l.band === band)
               const style = BAND_STYLE[band]
               return (
                 <div key={band}>
@@ -85,10 +94,10 @@ export function StepDashboard() {
                     <span className={`text-xs font-bold uppercase tracking-wider ${style.text}`}>
                       {band}
                     </span>
-                    <span className="text-xs text-muted-foreground">({leads.length})</span>
+                    <span className="text-xs text-muted-foreground">({bandLeads.length})</span>
                   </div>
                   <ul className="flex flex-col gap-2">
-                    {leads.map((lead, i) => (
+                    {bandLeads.map((lead, i) => (
                       <LeadRow key={lead.name} lead={lead} index={i} />
                     ))}
                   </ul>
@@ -106,9 +115,9 @@ export function StepDashboard() {
               Upcoming appointments
             </h2>
             <ul className="flex flex-col gap-2.5">
-              {APPOINTMENTS.map((a) => (
+              {APPOINTMENTS.map((a, index) => (
                 <li key={a.who} className="rounded-xl border border-border bg-elevated/40 p-3">
-                  <p className="text-xs font-medium text-gold">{a.time}</p>
+                  <p className="text-xs font-medium text-gold">{index === 0 ? appointmentTime : a.time}</p>
                   <p className="mt-0.5 text-sm font-semibold">{a.who}</p>
                   <p className="text-xs text-muted-foreground">{a.what}</p>
                 </li>

@@ -42,8 +42,7 @@ export function StepIntro({ onRun }: { onRun: () => void }) {
         className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
       >
         Kravex AI engages instantly, qualifies naturally, scores the lead, and
-        books the viewing — all before your coffee gets cold. Watch a real
-        Miami buyer come through, start to finish.
+        books the viewing — all before your coffee gets cold. Watch a realistic Miami buyer scenario play out, start to finish.
       </motion.p>
 
       <motion.div
